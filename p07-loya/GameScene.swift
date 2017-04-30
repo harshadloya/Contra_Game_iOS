@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene
 {
+    let map = JSTileMap(fileNamed: "lvl1.tmx")
     
     var screenWidth = CGFloat()
     var screenHeight = CGFloat()
@@ -34,6 +35,8 @@ class GameScene: SKScene
     
     override func didMove(to view: SKView)
     {
+        //addChild(map)
+        
         screenWidth = self.frame.size.width
         screenHeight = self.frame.size.height
         
