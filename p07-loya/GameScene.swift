@@ -21,6 +21,17 @@ class GameScene: SKScene
     var noOfTilesInARow = Int()
     var noOfTilesInAColumn = Int()
     
+    var base = SKShapeNode()
+    var controller = SKShapeNode()
+    var speedController = SKSpriteNode()
+    var controllerPressed = Bool()
+    var controllerMoved = Bool()
+    var speedControllerPressed = Bool()
+    var speedBooster = CGFloat()
+    
+    var xDist = CGFloat()
+    var yDist = CGFloat()
+    
     override func didMove(to view: SKView)
     {
         screenWidth = self.frame.size.width
@@ -63,10 +74,21 @@ class GameScene: SKScene
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches
-        {
-            let touchLocation = touch.location(in: self)
-            print(touchLocation)
+        
+        for touch in touches{
+            let location = touch.location(in: self)
+            
+            if(controllerPressed){
+                controllerMoved = true
+                let v = CGVector(dx: location.x - base.position.x, dy: location.y - base.position.y)
+                let angle = atan2(v.dy, v.dx)
+                
+                let length: CGFloat = base.frame.size.height / 5
+                
+                xDist = sin(angle - CGFloat(M_PI) / 2.0) * length
+                yDist = cos(angle - CGFloat(M_PI) / 2.0) * length
+                
+            }
         }
     }
     
@@ -84,6 +106,31 @@ class GameScene: SKScene
             let touchLocation = touch.location(in: self)
             print(touchLocation)
         }
+    }
+    
+    func createController()
+    {
+        
+        self.base = SKShapeNode(circleOfRadius: 50)
+        self.base.fillColor = SKColor.darkGray
+        self.base.position = CGPoint(x:100, y:70)
+        self.base.alpha = 0.4
+        self.base.zPosition = 3
+        self.addChild(base)
+        
+        self.controller = SKShapeNode(circleOfRadius: 20)
+        self.controller.fillColor = SKColor.gray
+        self.controller.position = self.base.position
+        self.controller.alpha = 0.7
+        self.controller.zPosition = 4
+        self.addChild(controller)
+        
+        self.speedController = SKSpriteNode(imageNamed: "fire")
+        self.speedController.zPosition = 4
+        self.speedController.alpha = 0.4
+        self.speedController.position = CGPoint(x: screenWidth - 100, y: 70)
+        self.speedController.setScale(0.4)
+        self.addChild(speedController)
     }
     
     

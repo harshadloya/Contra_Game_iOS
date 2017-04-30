@@ -419,6 +419,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "p07-loya/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loya";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -431,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "p07-loya/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loya";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,6 +446,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "p07-loyaTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loyaTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -458,6 +461,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "p07-loyaTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loyaTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,6 +475,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "p07-loyaUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loyaUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -484,6 +489,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "p07-loyaUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.binghamton.cs.gd.p07-loyaUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -511,6 +517,7 @@
 				AF33523F1EA991C700CC89B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF3352401EA991C700CC89B6 /* Build configuration list for PBXNativeTarget "p07-loyaTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +526,7 @@
 				AF3352421EA991C700CC89B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF3352431EA991C700CC89B6 /* Build configuration list for PBXNativeTarget "p07-loyaUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +535,7 @@
 				AF3352451EA991C700CC89B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
