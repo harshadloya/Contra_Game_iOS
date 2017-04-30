@@ -52,6 +52,8 @@ class GameScene: SKScene
         }
         self.addChild(gameBase)
         
+        self.createController()
+        
     }
     
     func createBackgroundTile() -> SKShapeNode
