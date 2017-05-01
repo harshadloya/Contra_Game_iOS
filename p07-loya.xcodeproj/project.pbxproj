@@ -15,10 +15,11 @@
 		AF3352231EA991C700CC89B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF3352211EA991C700CC89B6 /* LaunchScreen.storyboard */; };
 		AF33522E1EA991C700CC89B6 /* p07_loyaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF33522D1EA991C700CC89B6 /* p07_loyaTests.swift */; };
 		AF3352391EA991C700CC89B6 /* p07_loyaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3352381EA991C700CC89B6 /* p07_loyaUITests.swift */; };
+		AFB8ADD41EB6AC790088D30A /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AFB8ADD21EB6AC790088D30A /* lvl1.tmx */; };
+		AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */ = {isa = PBXBuildFile; fileRef = AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */; };
 		E948D3391EB5F3FC00E09D6C /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E948D3361EB5F3FC00E09D6C /* JSTileMap.m */; };
 		E948D33A1EB5F3FC00E09D6C /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E948D3381EB5F3FC00E09D6C /* LFCGzipUtility.m */; };
 		E948D33E1EB5F4CF00E09D6C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E948D33D1EB5F4CF00E09D6C /* libz.tbd */; };
-		E948D3401EB5F50A00E09D6C /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = E948D33F1EB5F50A00E09D6C /* lvl1.tmx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,13 +54,14 @@
 		AF3352341EA991C700CC89B6 /* p07-loyaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "p07-loyaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF3352381EA991C700CC89B6 /* p07_loyaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = p07_loyaUITests.swift; sourceTree = "<group>"; };
 		AF33523A1EA991C700CC89B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFB8ADD21EB6AC790088D30A /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lvl1.tmx; sourceTree = "<group>"; };
+		AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NES - Contra - Level 1.png"; sourceTree = "<group>"; };
 		E948D3341EB5F3FA00E09D6C /* p07-loya-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "p07-loya-Bridging-Header.h"; sourceTree = "<group>"; };
 		E948D3351EB5F3FC00E09D6C /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
 		E948D3361EB5F3FC00E09D6C /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
 		E948D3371EB5F3FC00E09D6C /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
 		E948D3381EB5F3FC00E09D6C /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
 		E948D33D1EB5F4CF00E09D6C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		E948D33F1EB5F50A00E09D6C /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lvl1.tmx; path = ../lvl1.tmx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,9 +120,10 @@
 				AF33521A1EA991C700CC89B6 /* GameViewController.swift */,
 				AF33521C1EA991C700CC89B6 /* Main.storyboard */,
 				AF33521F1EA991C700CC89B6 /* Assets.xcassets */,
-				E948D33F1EB5F50A00E09D6C /* lvl1.tmx */,
 				AF3352211EA991C700CC89B6 /* LaunchScreen.storyboard */,
 				AF3352241EA991C700CC89B6 /* Info.plist */,
+				AFB8ADD21EB6AC790088D30A /* lvl1.tmx */,
+				AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */,
 			);
 			path = "p07-loya";
 			sourceTree = "<group>";
@@ -273,7 +276,8 @@
 			files = (
 				AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */,
 				AF3352201EA991C700CC89B6 /* Assets.xcassets in Resources */,
-				E948D3401EB5F50A00E09D6C /* lvl1.tmx in Resources */,
+				AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */,
+				AFB8ADD41EB6AC790088D30A /* lvl1.tmx in Resources */,
 				AF3352231EA991C700CC89B6 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

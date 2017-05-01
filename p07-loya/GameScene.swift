@@ -11,7 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene
 {
-    let map = JSTileMap(fileNamed: "lvl1.tmx")
+    var map = JSTileMap()
+    var player1 = SKSpriteNode()
+    var ground = TMXObjectGroup()
     
     var screenWidth = CGFloat()
     var screenHeight = CGFloat()
@@ -35,38 +37,45 @@ class GameScene: SKScene
     
     override func didMove(to view: SKView)
     {
-        //addChild(map)
-        
         screenWidth = self.frame.size.width
         screenHeight = self.frame.size.height
         
-        noOfTilesInARow = Int(screenWidth) / 30
-        noOfTilesInAColumn = Int(screenHeight) / 30
+        self.createBackgroundTile()
         
-        for i in 0...noOfTilesInAColumn - 1
-        {
-            for j in 0...noOfTilesInARow - 1
-            {
-                gameBaseTile = self.createBackgroundTile()
-                gameBaseTile.position.x = gameBaseTile.position.x + CGFloat(j * 30)
-                gameBaseTile.position.y = gameBaseTile.position.y + CGFloat(i * 30)
-                gameBase.addChild(gameBaseTile)
-            }
-        }
-        self.addChild(gameBase)
+        self.addChild(map)
+        
+        ground = map.groupNamed("ground")
+        
+        player1 = self.createPlayer()
+        self.map.addChild(self.player1)
         
         self.createController()
         
     }
     
-    func createBackgroundTile() -> SKShapeNode
+    //Loads the level map from the tmx file
+    func createBackgroundTile()
     {
-        let tile = SKShapeNode(rectOf: CGSize(width: 30.0, height: 30.0))
-        tile.fillColor = UIColor.green
-        tile.strokeColor = UIColor.red
-        tile.position = CGPoint(x: 15, y: 15)
-        tile.zPosition = 1
-        return tile
+        map = JSTileMap(named: "lvl1.tmx")
+        map.position = CGPoint(x: 0, y: 0)
+        map.setScale(2)
+        
+    }
+    
+    func createPlayer() -> SKSpriteNode
+    {
+        let player = SKSpriteNode(imageNamed: "stand-right")
+        player.position = CGPoint(x: 50, y: 300)
+        player.zPosition = 15
+        
+        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
+        //player.physicsBody?.affectedByGravity = true
+        player.physicsBody?.collisionBitMask = 0
+        player.physicsBody?.contactTestBitMask = 0
+        player.physicsBody?.isDynamic = false
+        player.physicsBody?.allowsRotation = false
+        
+        return player
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -74,7 +83,9 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchLocation = touch.location(in: self)
-            print(touchLocation)
+            if(controllerPressed){
+                print(touchLocation)
+            }
         }
     }
     
@@ -101,7 +112,9 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchLocation = touch.location(in: self)
-            print(touchLocation)
+            if(controllerPressed){
+                print(touchLocation)
+            }
         }
     }
     
@@ -109,7 +122,10 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchLocation = touch.location(in: self)
-            print(touchLocation)
+            if(controllerPressed)
+            {
+                print(touchLocation)
+            }
         }
     }
     
