@@ -8,9 +8,10 @@
 
 import SpriteKit
 import GameplayKit
-
+let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
 class GameScene: SKScene
 {
+    
     var map = JSTileMap()
     var player1 = SKSpriteNode()
     var ground = TMXObjectGroup()
@@ -124,6 +125,27 @@ class GameScene: SKScene
         return player
     }
     
+    func firebullet()
+    {
+        let bullet = SKSpriteNode(imageNamed: "bullet")
+        bullet.position = CGPoint(x: player1.position.x + 5, y: player1.position.y + 2)
+        bullet.setScale(0.8)
+        print(bullet.position.y)
+        bullet.zPosition = -61
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: bullet.size.height/2)
+        bullet.physicsBody?.usesPreciseCollisionDetection = true
+        //bullet.physicsBody?.collisionBitMask = PhysicsCategories.None
+        //bullet.physicsBody?.contactTestBitMask = PhysicsCategories.Invader
+        bullet.physicsBody?.isDynamic = true
+        bullet.physicsBody?.affectedByGravity = false
+        //bullet.physicsBody?.categoryBitMask = PhysicsCategories.Bullet
+        map.addChild(bullet)
+        let move = SKAction.moveTo(x: self.size.width + 11,duration: 2)
+        let remove = SKAction.removeFromParent()
+        let fire = SKAction.sequence([bulletSound, move, remove])
+        bullet.run(fire)
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         for touch in touches
@@ -132,7 +154,18 @@ class GameScene: SKScene
             if(controller.contains(touchLocation)){
                 controllerPressed = true
             }
+            if speedController.contains(touchLocation)
+            {
+                firebullet()
+            }
         }
+       /* for t: AnyObject in touches{
+            let point = t.location(in: self)
+            if speedController.contains(point)
+            {
+                firebullet()
+            }
+    } */
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -253,6 +286,7 @@ class GameScene: SKScene
                 runLeftFlag = false
                 aimUpAngleLeftFlag = false
                 aimDownAngleLeftFlag = false
+                
             }
         }
     }
@@ -297,24 +331,24 @@ class GameScene: SKScene
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag){
-            player1.position = CGPoint(x: player1.position.x + 3, y: player1.position.y)
+            player1.position = CGPoint(x: player1.position.x + 2, y: player1.position.y)
         }
         
         if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag){
-            player1.position = CGPoint(x: player1.position.x - 3, y: player1.position.y)
+            player1.position = CGPoint(x: player1.position.x - 2, y: player1.position.y)
         }
     }
     
     func playerLyingRight() {
         let f0 = SKTexture.init(imageNamed: "floorright-frame1")
         let frames: [SKTexture] = [f0]
-        lieDownRight = SKAction.animate(with: frames, timePerFrame: 100)
+        lieDownRight = SKAction.animate(with: frames, timePerFrame: 0.2)
     }
 
     func playerAimUpRight() {
         let f0 = SKTexture.init(imageNamed: "aimupright-frame1")
         let frames: [SKTexture] = [f0]
-        aimUpRight = SKAction.animate(with: frames, timePerFrame: 100)
+        aimUpRight = SKAction.animate(with: frames, timePerFrame: 0.2)
     }
     
     func playerRunRight() {
@@ -357,13 +391,13 @@ class GameScene: SKScene
     func playerLyingLeft() {
         let f0 = SKTexture.init(imageNamed: "floorleft-frame1")
         let frames: [SKTexture] = [f0]
-        lieDownLeft = SKAction.animate(with: frames, timePerFrame: 100)
+        lieDownLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
     }
     
     func playerAimUpLeft() {
         let f0 = SKTexture.init(imageNamed: "aimupleft-frame1")
         let frames: [SKTexture] = [f0]
-        aimUpLeft = SKAction.animate(with: frames, timePerFrame: 100)
+        aimUpLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
     }
     
     func playerRunLeft() {

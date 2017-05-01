@@ -20,6 +20,7 @@
 		E948D3391EB5F3FC00E09D6C /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E948D3361EB5F3FC00E09D6C /* JSTileMap.m */; };
 		E948D33A1EB5F3FC00E09D6C /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E948D3381EB5F3FC00E09D6C /* LFCGzipUtility.m */; };
 		E948D33E1EB5F4CF00E09D6C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E948D33D1EB5F4CF00E09D6C /* libz.tbd */; };
+		E9DC97031EB7190B005DD18A /* ShipBullet.wav in Resources */ = {isa = PBXBuildFile; fileRef = E9DC97021EB7190B005DD18A /* ShipBullet.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		E948D3371EB5F3FC00E09D6C /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
 		E948D3381EB5F3FC00E09D6C /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
 		E948D33D1EB5F4CF00E09D6C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E9DC97021EB7190B005DD18A /* ShipBullet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ShipBullet.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				AF3352121EA991C700CC89B6 /* AppDelegate.swift */,
 				AF3352181EA991C700CC89B6 /* GameScene.swift */,
+				E9DC97021EB7190B005DD18A /* ShipBullet.wav */,
 				AF33521A1EA991C700CC89B6 /* GameViewController.swift */,
 				AF33521C1EA991C700CC89B6 /* Main.storyboard */,
 				AF33521F1EA991C700CC89B6 /* Assets.xcassets */,
@@ -276,6 +279,7 @@
 			files = (
 				AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */,
 				AF3352201EA991C700CC89B6 /* Assets.xcassets in Resources */,
+				E9DC97031EB7190B005DD18A /* ShipBullet.wav in Resources */,
 				AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */,
 				AFB8ADD91EB6C4460088D30A /* lvl1.tmx in Resources */,
 				AF3352231EA991C700CC89B6 /* LaunchScreen.storyboard in Resources */,
