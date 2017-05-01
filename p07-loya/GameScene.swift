@@ -47,7 +47,7 @@ class GameScene: SKScene
         ground = map.groupNamed("ground")
         
         player1 = self.createPlayer()
-        self.map.addChild(self.player1)
+        map.addChild(player1)
         
         self.createController()
         
@@ -65,15 +65,17 @@ class GameScene: SKScene
     func createPlayer() -> SKSpriteNode
     {
         let player = SKSpriteNode(imageNamed: "stand-right")
-        player.position = CGPoint(x: 50, y: 300)
-        player.zPosition = 15
+        player.position = CGPoint(x: self.frame.size.width/4, y: self.frame.size.height / 3)
+        player.zPosition = -60
+        player.setScale(0.9)
         
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
-        //player.physicsBody?.affectedByGravity = true
+        player.physicsBody?.affectedByGravity = false
         player.physicsBody?.collisionBitMask = 0
         player.physicsBody?.contactTestBitMask = 0
-        player.physicsBody?.isDynamic = false
+        player.physicsBody?.isDynamic = true
         player.physicsBody?.allowsRotation = false
+        
         
         return player
     }

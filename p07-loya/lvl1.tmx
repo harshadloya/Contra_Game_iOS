@@ -8,7 +8,7 @@
    eJwV1YOyGAYAAMEX27Zt27Zt27Zt27Zt27ZttEkbdTtz+w0XKCAgIDBBCEowghOCkIQiNGEISzjCE4GIRCIyUYhKNKITg5jEIjZxiEs84pOAhCQiMUlISjKSk4KUpCI1aUhLOtKTgYxkIjNZyEo2spODnOQiN3nISz7yU4CCFKIwRShKMYpTgpKUojRlKEs5ylOBilSiMlWoSjWqU4Oa1KI2dahLPerTgIY0ojFNaEozmtOClrSiNW1oSzva04GOdKIzXehKN7rTg570ojd96Es/+jOAgQxiMEMYyjCGM4KRjGI0YxjLOMYzgYlMYjJTmMo0pjODmcxiNnOYyzzms4CFLGIxS1jKMpazgpWsYjVrWMs61rOBjWxiM1vYyja2s4Od7GI3e9jLPvZzgIMc4jBHOMoxjnOCk5ziNGc4yznOc4GLXOIyV7jKNa5zg5vc4jZ3uMs97vOAhzziMU94yjOe84KXvOI1b3jLO97zgY984jNf+Mpf/M03vvMP//KDn/ziN38ICCQCE4SgBCM4IQhJKEIThrCEIzwRiEgkIhOFqEQjOjGISSxiE4e4xCM+CUhIIhKThKQkIzkpSEkqUpOGtKQjPRnISCYyk4WsZCM7OchJLnKTh7zkIz8FKEghClOEohSjOCUoSSlKU4aylKM8FahIJSpThapUozo1qEktalOHutSjPg1oSCMa04SmNKM5LWhJK1rThra0oz0d6EgnOtOFrnSjOz3oSS9604e+9KM/AxjIIAYzhKEMYzgjGMkoRjOGsYxjPBOYyCQmM4WpTGM6M5jJLGYzh7nMYz4LWMgiFrOEpSxjOStYySpWs4a1rGM9G9jIJjazha1sYzs72MkudrOHvexjPwc4yCEOc4SjHOM4JzjJKU5zhrOc4zwXuMglLnOFq1zjOje4yS1uc4e73OM+D3jIIx7zhKc84zkveMkrXvOGt7zjPR/4yCc+84Wv/MXffOM7//AvP/jJL37zh//HH4jABCEowQhOCEISitCEISzhCE8EIhKJyEQhKtGITgxiEovYxCEu8YhPAhKSiMQkISnJSE4KUpKK1KQhLelITwYykonMZCEr2chODnKSi9zkIS/5yE8BClKIwhShKMUoTglKUorSlKEs5ShPBSpSicpUoSrVqE4NalKL2tShLvWoTwMa0ojGNKEpzWhOC1rSita0oS3taE8HOtKJznShK93oTg960ove9KEv/ejPAAYyiMEMYSjDGM4IRjKK0YxhLOMYzwQmMonJTGEq05jODGYyi9nMYS7zmM8CFrKIxSxhKctYzgpWsorVrGEt61jPBjayic1sYSvb2M4OdrKL3exhL/vYzwEOcojDHOEoxzjOCU5yitOc4SznOM8FLnKJy1zhKte4zg1ucovb3OEu97jPAx7yiMc84SnPeM4LXvKK17zhLe94zwc+8onPfOEr/wEZm3a8
   </data>
  </layer>
- <objectgroup name="ground" visible="0">
+ <objectgroup name="ground">
   <object id="3" name="plat1" type="ground" x="29.6667" y="108" width="1409.67" height="11.3333"/>
   <object id="6" name="plat2" type="ground" x="1376.33" y="76.3333" width="511" height="12"/>
   <object id="7" name="plat3" type="ground" x="1407.67" y="203.667" width="96" height="13"/>
@@ -49,7 +49,7 @@
   <object id="59" name="plat39" type="ground" x="608.333" y="203.667" width="62.6667" height="11.6667"/>
   <object id="60" name="plat40" type="ground" x="639.667" y="156" width="95.6667" height="9.33333"/>
  </objectgroup>
- <objectgroup name="canons" visible="0">
+ <objectgroup name="canons">
   <object id="43" name="can1" type="canon" x="1247.67" y="136.333" width="32.3333" height="31.3333"/>
   <object id="44" name="can2" type="canon" x="1567.67" y="136.333" width="32.3333" height="31.3333"/>
   <object id="45" name="can3" type="canon" x="1631.67" y="104.667" width="32.6667" height="30.3333"/>
@@ -60,7 +60,7 @@
   <object id="50" name="can8" type="canon" x="3232.67" y="168" width="30.6667" height="31.3333"/>
   <object id="61" name="can9" type="canon" x="318.667" y="136" width="31.6667" height="31.3333"/>
  </objectgroup>
- <objectgroup name="Edges" visible="0">
+ <objectgroup name="Edges">
   <object id="51" name="rightedge" type="edge" x="3345" y="2.36367" width="69.6667" height="216.485"/>
   <object id="52" name="leftedge" type="edge" x="1" y="-3.33337" width="32.3333" height="224.666"/>
  </objectgroup>
