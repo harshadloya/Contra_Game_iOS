@@ -49,6 +49,9 @@ class GameScene: SKScene
     var xDist = CGFloat()
     var yDist = CGFloat()
     
+    var standRight = SKAction()
+    var standLeft = SKAction()
+    
     var aimUpAngleRight = SKAction()
     var aimUpAngleRightFlag = Bool()
     
@@ -117,7 +120,9 @@ class GameScene: SKScene
         self.playerAimUpAngleRight()
         self.playerAimUpRight()
         self.playerAimDownAngleRight()
+        self.playerStandRight()
         
+        self.playerStandLeft()
         self.playerRunLeft()
         self.playerJumpLeft()
         self.playerLyingLeft()
@@ -265,7 +270,7 @@ class GameScene: SKScene
                 
                 if(angle < 1.5 && angle >= 1.3)
                 {
-                    player1.run(aimUpRight)
+                    player1.run(SKAction.repeatForever(aimUpRight))
                     aimUpAngleRightFlag = false
                     aimDownAngleRightFlag = false
                     runRightFlag = false
@@ -275,7 +280,6 @@ class GameScene: SKScene
                 if(angle < 1.3 && angle >= 0.4){
                     player1.run(SKAction.repeatForever(aimUpAngleRight))
                     aimUpAngleRightFlag = true
-                    //player1.run(SKAction.moveBy(x: 10, y: 0, duration: 2))
                     print("aim up angle right!")
                 }
                 else{
@@ -283,7 +287,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < 0.4 && angle >= -0.2){
-                    player1.run(runRight)
+                    player1.run(SKAction.repeatForever(runRight))
                     runRightFlag = true
                     print("run right!")
                 }
@@ -302,35 +306,34 @@ class GameScene: SKScene
                 
                 if(angle < -1.1 && angle >= -1.5)
                 {
-                    player1.run(lieDownRight)
+                    player1.run(SKAction.repeatForever(lieDownRight))
                     aimUpAngleRightFlag = false
                     aimDownAngleRightFlag = false
                     runRightFlag = false
                     print("lying down")
                 }
 ////////////////////////////////
-                /*
+                
                 if(angle < 1.7 && angle >= 1.5)
                 {
-                    player1.run(aimUpLeft)
+                    player1.run(SKAction.repeatForever(aimUpLeft))
                     aimUpAngleLeftFlag = false
                     aimDownAngleLeftFlag = false
                     runLeftFlag = false
                     print("aiming up")
                 }
                 
-                if(angle < 2.8 || angle >= 1.7){
-                    player1.run(aimUpAngleLeft)
+                if(angle < 2.8 && angle >= 1.7){
+                    player1.run(SKAction.repeatForever(aimUpAngleLeft))
                     aimUpAngleLeftFlag = true
-                    //player1.run(SKAction.moveBy(x: 10, y: 0, duration: 2))
                     print("aim up angle Left!")
                 }
                 else{
                     aimUpAngleLeftFlag = false
                 }
                 
-                if(angle < 2.8 && angle <= -3.1){
-                    player1.run(runLeft)
+                if(angle >= 2.8 || angle <= -3.1){
+                    player1.run(SKAction.repeatForever(runLeft))
                     runLeftFlag = true
                     print("run Left!")
                 }
@@ -338,24 +341,24 @@ class GameScene: SKScene
                     runLeftFlag = false
                 }
                 
-                if(angle < -0.2 && angle >= -3.1){
-                    player1.run(aimDownAngleLeft)
+                if(angle < -0.2 && angle > -3.1){
+                    player1.run(SKAction.repeatForever(aimDownAngleLeft))
                     aimDownAngleLeftFlag = true
-                    print("down angle right")
+                    print("down angle left")
                 }
                 else{
                     aimDownAngleLeftFlag = false
                 }
                 
-                if(angle < -1.1 && angle >= -1.5)
+                if(angle < -1.5 && angle >= -1.7)
                 {
-                    player1.run(lieDownLeft)
+                    player1.run(SKAction.repeatForever(lieDownLeft))
                     aimUpAngleLeftFlag = false
                     aimDownAngleLeftFlag = false
                     runLeftFlag = false
-                    print("lying down")
+                    print("lying down left")
                 }
-*/
+
             }
         }
     }
@@ -363,8 +366,18 @@ class GameScene: SKScene
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches
         {
+            
             let touchLocation = touch.location(in: self)
             if(controllerPressed){
+                
+                if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag){
+                    player1.run(SKAction.repeatForever(standRight))
+                }
+                
+                if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag){
+                    player1.run(SKAction.repeatForever(standLeft))
+                }
+                
                 controller.position = base.position
                 controllerPressed = false
                 runRightFlag = false
@@ -440,6 +453,18 @@ class GameScene: SKScene
         aimUpRight = SKAction.animate(with: frames, timePerFrame: 0.2)
     }
     
+    func playerStandRight() {
+        let f0 = SKTexture.init(imageNamed: "stand-right")
+        let frames: [SKTexture] = [f0]
+        standRight = SKAction.animate(with: frames, timePerFrame: 0.2)
+    }
+    
+    func playerStandLeft() {
+        let f0 = SKTexture.init(imageNamed: "stand-left")
+        let frames: [SKTexture] = [f0]
+        standLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
+    }
+    
     func playerRunRight() {
         let f0 = SKTexture.init(imageNamed: "runright-frame1")
         let f1 = SKTexture.init(imageNamed: "runright-frame2")
@@ -448,7 +473,7 @@ class GameScene: SKScene
         let f4 = SKTexture.init(imageNamed: "runright-frame5")
         let f5 = SKTexture.init(imageNamed: "runright-frame6")
         let frames: [SKTexture] = [f0, f1, f2, f3, f4, f5]
-        runRight = SKAction.animate(with: frames, timePerFrame: 0.2)
+        runRight = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerAimUpAngleRight() {
@@ -456,7 +481,7 @@ class GameScene: SKScene
         let f1 = SKTexture.init(imageNamed: "runupright-frame2")
         let f2 = SKTexture.init(imageNamed: "runupright-frame3")
         let frames: [SKTexture] = [f0, f1, f2]
-        aimUpAngleRight = SKAction.animate(with: frames, timePerFrame: 0.2)
+        aimUpAngleRight = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerAimDownAngleRight() {
@@ -464,7 +489,7 @@ class GameScene: SKScene
         let f1 = SKTexture.init(imageNamed: "rundownright-frame2")
         let f2 = SKTexture.init(imageNamed: "rundownright-frame3")
         let frames: [SKTexture] = [f0, f1, f2]
-        aimDownAngleRight = SKAction.animate(with: frames, timePerFrame: 0.2)
+        aimDownAngleRight = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerJumpRight() {
@@ -497,7 +522,7 @@ class GameScene: SKScene
         let f4 = SKTexture.init(imageNamed: "runleft-frame5")
         let f5 = SKTexture.init(imageNamed: "runleft-frame6")
         let frames: [SKTexture] = [f0, f1, f2, f3, f4, f5]
-        runLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
+        runLeft = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerAimUpAngleLeft() {
@@ -505,7 +530,7 @@ class GameScene: SKScene
         let f1 = SKTexture.init(imageNamed: "runupleft-frame2")
         let f2 = SKTexture.init(imageNamed: "runupleft-frame3")
         let frames: [SKTexture] = [f0, f1, f2]
-        aimUpAngleLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
+        aimUpAngleLeft = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerAimDownAngleLeft() {
@@ -513,7 +538,7 @@ class GameScene: SKScene
         let f1 = SKTexture.init(imageNamed: "rundownleft-frame2")
         let f2 = SKTexture.init(imageNamed: "rundownleft-frame3")
         let frames: [SKTexture] = [f0, f1, f2]
-        aimDownAngleLeft = SKAction.animate(with: frames, timePerFrame: 0.2)
+        aimDownAngleLeft = SKAction.animate(with: frames, timePerFrame: 0.16)
     }
     
     func playerJumpLeft() {
