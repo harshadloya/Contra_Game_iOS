@@ -9,12 +9,25 @@
 import SpriteKit
 import GameplayKit
 let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
+
+struct PhyCat
+{
+    static let Player : UInt32 = 0x1 << 1
+    static let Ground : UInt32 = 0x1 << 2
+    static let Enemy : UInt32 = 0x1 << 3
+    static let Edge : UInt32 = 0x1 << 4
+    static let Bullet : UInt32 = 0x1 << 5
+}
+
 class GameScene: SKScene
 {
     
     var map = JSTileMap()
-    var player1 = SKSpriteNode()
     var ground = TMXObjectGroup()
+    var edge = TMXObjectGroup()
+    
+    var player1 = SKSpriteNode()
+    var bullet = SKSpriteNode()
     
     var screenWidth = CGFloat()
     var screenHeight = CGFloat()
@@ -82,6 +95,8 @@ class GameScene: SKScene
         
         self.createController()
         
+        self.createPhysicsAssets()
+        
     }
     
     //Loads the level map from the tmx file
@@ -111,36 +126,104 @@ class GameScene: SKScene
         self.playerAimDownAngleLeft()
         
         let player = SKSpriteNode(imageNamed: "stand-right")
-        player.position = CGPoint(x: self.frame.size.width/4, y: self.frame.size.height / 3)
+        player.position = CGPoint(x: self.frame.size.width / 6, y: self.frame.size.height / 3)
         player.zPosition = -60
         player.setScale(1.0)
         
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
-        player.physicsBody?.affectedByGravity = false
-        player.physicsBody?.collisionBitMask = 0
-        player.physicsBody?.contactTestBitMask = 0
+        player.physicsBody?.affectedByGravity = true
+        player.physicsBody?.categoryBitMask = PhyCat.Player
+        player.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
+        player.physicsBody?.contactTestBitMask = PhyCat.Enemy
         player.physicsBody?.isDynamic = true
         player.physicsBody?.allowsRotation = false
         
         return player
     }
     
+    func createPhysicsAssets()
+    {
+        ground = map.groupNamed("ground")
+        
+        var groundArrayObjects = NSMutableArray()
+        groundArrayObjects =  ground.objects
+        
+        var groundDictObj = NSDictionary()
+        var groundX = CGFloat()
+        var groundY = CGFloat()
+        var groundW = Double()
+        var groundH = Double()
+        
+        for var z in 0...groundArrayObjects.count-1
+        {
+            groundDictObj = groundArrayObjects.object(at: z) as! NSDictionary
+            groundX = groundDictObj.value(forKey: "x") as! CGFloat
+            groundY = groundDictObj.value(forKey: "y") as! CGFloat
+            groundW = (groundDictObj.value(forKey: "width") as! NSString).doubleValue
+            groundH = (groundDictObj.value(forKey: "height") as! NSString).doubleValue
+            
+            let groundNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: groundW, height: groundH + 25))
+            groundNode.position = CGPoint(x: groundX, y: groundY)
+            groundNode.zPosition = -60
+            
+            groundNode.physicsBody = SKPhysicsBody(rectangleOf: groundNode.size)
+            groundNode.physicsBody?.isDynamic = false
+            groundNode.physicsBody?.categoryBitMask = PhyCat.Ground
+            groundNode.physicsBody?.collisionBitMask = PhyCat.Player | PhyCat.Enemy
+            groundNode.physicsBody?.contactTestBitMask = 0
+            
+            map.addChild(groundNode)
+        }
+        
+        edge = map.groupNamed("Edges")
+        
+        var edgesArrayObjects = NSMutableArray()
+        edgesArrayObjects =  edge.objects
+        
+        var edgeDictObj = NSDictionary()
+        var edgeX = CGFloat()
+        var edgeY = CGFloat()
+        var edgeW = Double()
+        var edgeH = Double()
+        
+        for var zz in 0...edgesArrayObjects.count-1
+        {
+            edgeDictObj = edgesArrayObjects.object(at: zz) as! NSDictionary
+            edgeX = edgeDictObj.value(forKey: "x") as! CGFloat
+            edgeY = edgeDictObj.value(forKey: "y") as! CGFloat
+            edgeW = (edgeDictObj.value(forKey: "width") as! NSString).doubleValue
+            edgeH = (edgeDictObj.value(forKey: "height") as! NSString).doubleValue
+            
+            let edgeNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: edgeW, height: edgeH))
+            edgeNode.position = CGPoint(x: edgeX, y: edgeY)
+            edgeNode.zPosition = -60
+            
+            edgeNode.physicsBody = SKPhysicsBody(rectangleOf: edgeNode.size)
+            edgeNode.physicsBody?.isDynamic = false
+            edgeNode.physicsBody?.categoryBitMask = PhyCat.Edge
+            edgeNode.physicsBody?.collisionBitMask = PhyCat.Player | PhyCat.Enemy
+            edgeNode.physicsBody?.contactTestBitMask = PhyCat.Player | PhyCat.Enemy
+            
+            map.addChild(edgeNode)
+        }
+    }
+    
     func firebullet()
     {
-        let bullet = SKSpriteNode(imageNamed: "bullet")
-        bullet.position = CGPoint(x: player1.position.x + 5, y: player1.position.y + 2)
+        bullet = SKSpriteNode(imageNamed: "bullet")
+        bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 2)
         bullet.setScale(0.8)
-        print(bullet.position.y)
         bullet.zPosition = -61
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: bullet.size.height/2)
         bullet.physicsBody?.usesPreciseCollisionDetection = true
-        //bullet.physicsBody?.collisionBitMask = PhysicsCategories.None
-        //bullet.physicsBody?.contactTestBitMask = PhysicsCategories.Invader
+        bullet.physicsBody?.categoryBitMask = PhyCat.Bullet
+        bullet.physicsBody?.collisionBitMask = 0
+        bullet.physicsBody?.contactTestBitMask = PhyCat.Enemy
         bullet.physicsBody?.isDynamic = true
         bullet.physicsBody?.affectedByGravity = false
-        //bullet.physicsBody?.categoryBitMask = PhysicsCategories.Bullet
         map.addChild(bullet)
-        let move = SKAction.moveTo(x: self.size.width + 11,duration: 2)
+        
+        let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
         let remove = SKAction.removeFromParent()
         let fire = SKAction.sequence([bulletSound, move, remove])
         bullet.run(fire)
@@ -159,13 +242,6 @@ class GameScene: SKScene
                 firebullet()
             }
         }
-       /* for t: AnyObject in touches{
-            let point = t.location(in: self)
-            if speedController.contains(point)
-            {
-                firebullet()
-            }
-    } */
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -190,6 +266,9 @@ class GameScene: SKScene
                 if(angle < 1.5 && angle >= 1.3)
                 {
                     player1.run(aimUpRight)
+                    aimUpAngleRightFlag = false
+                    aimDownAngleRightFlag = false
+                    runRightFlag = false
                     print("aiming up")
                 }
                 
@@ -224,16 +303,23 @@ class GameScene: SKScene
                 if(angle < -1.1 && angle >= -1.5)
                 {
                     player1.run(lieDownRight)
+                    aimUpAngleRightFlag = false
+                    aimDownAngleRightFlag = false
+                    runRightFlag = false
                     print("lying down")
                 }
 ////////////////////////////////
+                /*
                 if(angle < 1.7 && angle >= 1.5)
                 {
                     player1.run(aimUpLeft)
+                    aimUpAngleLeftFlag = false
+                    aimDownAngleLeftFlag = false
+                    runLeftFlag = false
                     print("aiming up")
                 }
                 
-                if(angle < 2.6 && angle >= 1.7){
+                if(angle < 2.8 || angle >= 1.7){
                     player1.run(aimUpAngleLeft)
                     aimUpAngleLeftFlag = true
                     //player1.run(SKAction.moveBy(x: 10, y: 0, duration: 2))
@@ -242,8 +328,8 @@ class GameScene: SKScene
                 else{
                     aimUpAngleLeftFlag = false
                 }
-                /*
-                if(angle < 2.6 && angle <= 2.6){
+                
+                if(angle < 2.8 && angle <= -3.1){
                     player1.run(runLeft)
                     runLeftFlag = true
                     print("run Left!")
@@ -252,7 +338,7 @@ class GameScene: SKScene
                     runLeftFlag = false
                 }
                 
-                if(angle < -0.2 && angle >= -1.1){
+                if(angle < -0.2 && angle >= -3.1){
                     player1.run(aimDownAngleLeft)
                     aimDownAngleLeftFlag = true
                     print("down angle right")
@@ -264,6 +350,9 @@ class GameScene: SKScene
                 if(angle < -1.1 && angle >= -1.5)
                 {
                     player1.run(lieDownLeft)
+                    aimUpAngleLeftFlag = false
+                    aimDownAngleLeftFlag = false
+                    runLeftFlag = false
                     print("lying down")
                 }
 */
