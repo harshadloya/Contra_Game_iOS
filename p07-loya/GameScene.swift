@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 
-
+let lives = 3
 let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
 
 let scaleup = SKAction.scale(to: 1.2, duration: 0.1)
@@ -29,9 +29,11 @@ struct PhyCat
     static let Bullet : UInt32 = 0x1 << 5
 }
 
-class GameScene: SKScene
+class GameScene: SKScene, SKPhysicsContactDelegate
 {
     var enemy = SKSpriteNode()
+    
+    var collided = Bool()
     
     var map = JSTileMap()
     var ground = TMXObjectGroup()
@@ -39,6 +41,8 @@ class GameScene: SKScene
     
     var player1 = SKSpriteNode()
     var bullet = SKSpriteNode()
+    var standRightFlag = Bool()
+    var standLeftFlag = Bool()
     
     var screenWidth = CGFloat()
     var screenHeight = CGFloat()
@@ -109,9 +113,11 @@ class GameScene: SKScene
     override func didMove(to view: SKView)
     {
         self.view?.isMultipleTouchEnabled = true
-        
+        self.physicsWorld.contactDelegate = self
         screenWidth = self.frame.size.width
         screenHeight = self.frame.size.height
+        
+        collided = false
         
         self.createBackgroundTile()
         
@@ -207,8 +213,10 @@ class GameScene: SKScene
         
         //creating the player
         let player = SKSpriteNode(imageNamed: "stand-right")
+        standRightFlag = true
         player.position = CGPoint(x: self.frame.size.width / 6, y: self.frame.size.height / 3)
         player.zPosition = -60
+        player.size = CGSize(width: 18, height:36)
         player.setScale(1.0)
         
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
@@ -292,7 +300,7 @@ class GameScene: SKScene
     func firebullet()
     {
         bullet = SKSpriteNode(imageNamed: "bullet")
-        bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 2)
+ //       bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 2)
         bullet.setScale(0.8)
         bullet.zPosition = -61
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: bullet.size.height/2)
@@ -304,10 +312,10 @@ class GameScene: SKScene
         bullet.physicsBody?.affectedByGravity = false
         map.addChild(bullet)
         
-        let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
-        let remove = SKAction.removeFromParent()
-        let fire = SKAction.sequence([bulletSound, move, remove])
-        bullet.run(fire)
+       // let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
+       // let remove = SKAction.removeFromParent()
+       // let fire = SKAction.sequence([bulletSound, move, remove])
+       // bullet.run(fire)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -324,14 +332,73 @@ class GameScene: SKScene
             if speedController.contains(touchLocation)
             {
                 firebullet()
-                speedController.run(fade)
-                speedController.run(bouncybouncy)
+                if(standRightFlag){
+                    bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 5)
+                    let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
+                   // let move = SKAction.moveBy(x: self.size.width, y: self.size.width, duration: 8.0)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                
+                if(standLeftFlag){
+                    bullet.position = CGPoint(x: player1.position.x, y: player1.position.y + 5)
+                    let move = SKAction.moveTo(x: -self.size.width*0.5,duration: 1.8)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                
+                if(aimUpRightFlag){
+                    bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 5)
+                    let move = SKAction.moveBy(x: self.size.width, y: self.size.width, duration: 8.0)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                if(aimUpLeftFlag){
+                    bullet.position = CGPoint(x: player1.position.x, y: player1.position.y + 5)
+                    let move = SKAction.moveBy(x: -self.size.width, y: self.size.width, duration: 8.0)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                
+                if(aimDownAngleRightFlag){
+                    bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 5)
+                    let move = SKAction.moveBy(x: self.size.width, y: -self.size.width, duration: 8.0)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                
+                if(aimDownAngleLeftFlag){
+                    bullet.position = CGPoint(x: player1.position.x, y: player1.position.y + 5)
+                    let move = SKAction.moveBy(x: -self.size.width, y: -self.size.width, duration: 8.0)
+                    let remove = SKAction.removeFromParent()
+                    let fire = SKAction.sequence([bulletSound, move, remove])
+                    bullet.run(fire)
+                    speedController.run(fade)
+                    speedController.run(bouncybouncy)
+                }
+                
             }
             if jumpController.contains(touchLocation)
             {
                 jumpController.run(fade)
                 jumpController.run(bouncybouncy)
                 //jump()
+                player1.run(jumpRight)
             }
             
         }
@@ -345,6 +412,10 @@ class GameScene: SKScene
             if(controllerPressed)
             {
                 controllerMoved = true
+                
+                standLeftFlag = false
+                standRightFlag = false
+                
                 let v = CGVector(dx: touchLocation.x - base.position.x, dy: touchLocation.y - base.position.y)
                 let angle = atan2(v.dy, v.dx)
                 
@@ -355,14 +426,11 @@ class GameScene: SKScene
                 
                 //print(angle)
                 controller.position = CGPoint(x:base.position.x - xDist, y:base.position.y + yDist)
-
                 
                 if(angle < 1.5 && angle >= 1.3)
                 {
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimUpRight))
-                 //   aimUpAngleRightFlag = false
-                 //   aimDownAngleRightFlag = false
-                 //   runRightFlag = false
                     aimUpRightFlag = true
                     print("aiming up")
                 }
@@ -371,6 +439,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < 1.3 && angle >= 0.4){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimUpAngleRight))
                     aimUpAngleRightFlag = true
                     print("aim up angle right!")
@@ -380,6 +449,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < 0.4 && angle >= -0.2){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(runRight))
                     runRightFlag = true
                     print("run right!")
@@ -389,6 +459,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < -0.2 && angle >= -1.1){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimDownAngleRight))
                     aimDownAngleRightFlag = true
                     print("down angle right")
@@ -399,7 +470,7 @@ class GameScene: SKScene
                 
                 if(angle < -1.1 && angle >= -1.5)
                 {
-               //     player1.size = CGSize(width: 60, height: 35)
+                    player1.size = CGSize(width: 36, height:18)
                     player1.run(SKAction.repeatForever(lieDownRight))
                     lieDownRightFlag = true
                     print("lying down")
@@ -411,10 +482,8 @@ class GameScene: SKScene
                 
                 if(angle < 1.7 && angle >= 1.5)
                 {
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimUpLeft))
-                //    aimUpAngleLeftFlag = false
-                //    aimDownAngleLeftFlag = false
-                //    runLeftFlag = false
                     aimUpLeftFlag = true
                     print("aiming up")
                 }
@@ -423,6 +492,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < 2.8 && angle >= 1.7){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimUpAngleLeft))
                     aimUpAngleLeftFlag = true
                     print("aim up angle Left!")
@@ -432,6 +502,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle >= 2.8 || angle <= -3.1){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(runLeft))
                     runLeftFlag = true
                     print("run Left!")
@@ -441,6 +512,7 @@ class GameScene: SKScene
                 }
                 
                 if(angle < -1.7 && angle > -3.1){
+                    player1.size = CGSize(width: 18, height:36)
                     player1.run(SKAction.repeatForever(aimDownAngleLeft))
                     aimDownAngleLeftFlag = true
                     print("down angle left")
@@ -451,6 +523,7 @@ class GameScene: SKScene
                 
                 if(angle < -1.5 && angle >= -1.7)
                 {
+                    player1.size = CGSize(width: 36, height:18)
                     player1.run(SKAction.repeatForever(lieDownLeft))
                     lieDownLeftFlag = true
                     print("lying down left")
@@ -483,10 +556,14 @@ class GameScene: SKScene
             if(controllerPressed)
             {
                 if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag || lieDownRightFlag || aimUpRightFlag){
+                    player1.size = CGSize(width: 18, height:36)
+                    standRightFlag = true
                     player1.run(SKAction.repeatForever(standRight))
                 }
                 
                 if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag || lieDownLeftFlag || aimUpLeftFlag){
+                    player1.size = CGSize(width: 18, height:36)
+                    standLeftFlag = true
                     player1.run(SKAction.repeatForever(standLeft))
                 }
                 
@@ -561,6 +638,20 @@ class GameScene: SKScene
         }
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        print("contact physics")
+        let firstBody = contact.bodyA
+        let secondBody = contact.bodyB
+        if(collided==false){
+            if((firstBody.contactTestBitMask == PhyCat.Player && secondBody.contactTestBitMask == PhyCat.Enemy)||(firstBody.contactTestBitMask == PhyCat.Enemy && secondBody.contactTestBitMask == PhyCat.Player)){
+                //player1.removeAllActions()
+                player1.run(killRightAction)
+                collided = true
+            }
+        }
+    }
+    
     func playerLyingRight() {
         let f0 = SKTexture.init(imageNamed: "floorright-frame1")
         let frames: [SKTexture] = [f0]
@@ -613,14 +704,64 @@ class GameScene: SKScene
     }
     
     func playerJumpRight() {
-        let f0 = SKTexture.init(imageNamed: "jump-frame1")
-        let f1 = SKTexture.init(imageNamed: "jump-frame2")
-        let f2 = SKTexture.init(imageNamed: "jump-frame3")
-        let f3 = SKTexture.init(imageNamed: "jump-frame4")
-        let frames: [SKTexture] = [f0, f1, f2, f3]
-        jumpRight = SKAction.animate(with: frames, timePerFrame: 0.05)
+        var jumpRightTexture = SKTextureAtlas()
+        var jumpRightArray = [SKTexture]()
+      /*
+        jumpRightTexture = SKTextureAtlas(named: "jump-right.atlas")
+        print(jumpRightTexture.textureNames.count)
+        for i in 0...jumpRightTexture.textureNames.count - 1
+        {
+            let Name = "frame_\(i)_delay-0.02s.png"
+            jumpRightArray.append(SKTexture(imageNamed: Name))
+        }
+        jumpRight = SKAction.animate(with: jumpRightArray, timePerFrame: 0.05)
+ */
     }
     
+    func playerKillRight()
+    {
+        var killRight = SKTextureAtlas()
+        var killRightArray = [SKTexture]()
+        
+        killRight = SKTextureAtlas(named: "killRight.atlas")
+        for i in 1...killRight.textureNames.count
+        {
+            let Name = "killRight-frame\(i).png"
+            killRightArray.append(SKTexture(imageNamed: Name))
+        }
+        killRightAction = SKAction.animate(with: killRightArray, timePerFrame: 0.16)
+    }
+    
+    func createEnemyFromRight(){
+        
+        self.enemy = SKSpriteNode(imageNamed: "EnemyL1")
+        self.enemy.position = CGPoint(x: self.frame.size.width + 50, y: self.frame.size.height / 2)
+        self.enemy.zPosition = -60
+        self.enemy.setScale(1.0)
+        
+        self.enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        self.enemy.physicsBody?.affectedByGravity = true
+        self.enemy.physicsBody?.categoryBitMask = PhyCat.Enemy
+        self.enemy.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
+        self.enemy.physicsBody?.contactTestBitMask = PhyCat.Player
+        self.enemy.physicsBody?.isDynamic = true
+        self.enemy.physicsBody?.allowsRotation = false
+        
+        var enemyFromRight = SKTextureAtlas()
+        var enemyFromRightArray = [SKTexture]()
+        
+        enemyFromRight = SKTextureAtlas(named: "EnemyL.atlas")
+        for i in 1...enemyFromRight.textureNames.count
+        {
+            let Name = "EnemyL\(i).png"
+            enemyFromRightArray.append(SKTexture(imageNamed: Name))
+        }
+        self.enemy.run(SKAction.repeatForever(SKAction.animate(with: enemyFromRightArray, timePerFrame: 0.16)))
+        self.enemy.run(SKAction.sequence([SKAction.move(to: CGPoint(x: -self.frame.size.width + 50, y: 0), duration: 30), SKAction.removeFromParent()]))
+        print("adding enemy")
+        map.addChild(self.enemy)
+    }
+
     ////////////////////////////////////////
     func playerLyingLeft() {
         let f0 = SKTexture.init(imageNamed: "floorleft-frame1")
@@ -684,49 +825,6 @@ class GameScene: SKScene
         killLeftAction = SKAction.animate(with: killLeftArray, timePerFrame: 0.16)
     }
     
-    func playerKillRight()
-    {
-        var killRight = SKTextureAtlas()
-        var killRightArray = [SKTexture]()
-        
-        killRight = SKTextureAtlas(named: "killRight.atlas")
-        for i in 1...killRight.textureNames.count
-        {
-            let Name = "killRight-frame\(i).png"
-            killRightArray.append(SKTexture(imageNamed: Name))
-        }
-        killRightAction = SKAction.animate(with: killRightArray, timePerFrame: 0.16)
-    }
-    
-    func createEnemyFromRight(){
-        
-        self.enemy = SKSpriteNode(imageNamed: "EnemyL1")
-        self.enemy.position = CGPoint(x: self.frame.size.width + 50, y: self.frame.size.height / 2)
-        self.enemy.zPosition = -60
-        self.enemy.setScale(1.0)
-        
-        self.enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
-        self.enemy.physicsBody?.affectedByGravity = true
-        self.enemy.physicsBody?.categoryBitMask = PhyCat.Enemy
-        self.enemy.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
-        self.enemy.physicsBody?.contactTestBitMask = PhyCat.Player
-        self.enemy.physicsBody?.isDynamic = true
-        self.enemy.physicsBody?.allowsRotation = false
-        
-        var enemyFromRight = SKTextureAtlas()
-        var enemyFromRightArray = [SKTexture]()
-        
-        enemyFromRight = SKTextureAtlas(named: "EnemyL.atlas")
-        for i in 1...enemyFromRight.textureNames.count
-        {
-            let Name = "EnemyL\(i).png"
-            enemyFromRightArray.append(SKTexture(imageNamed: Name))
-        }
-        self.enemy.run(SKAction.repeatForever(SKAction.animate(with: enemyFromRightArray, timePerFrame: 0.16)))
-        self.enemy.run(SKAction.sequence([SKAction.move(to: CGPoint(x: -self.frame.size.width + 50, y: 0), duration: 30), SKAction.removeFromParent()]))
-        print("adding enemy")
-        map.addChild(self.enemy)
-    }
     
     func createEnemyFromLeft(){
         
