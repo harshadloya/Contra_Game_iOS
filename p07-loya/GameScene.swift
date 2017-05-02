@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 
-let lives = 3
+var lives = 3
 let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
 
 let scaleup = SKAction.scale(to: 1.2, duration: 0.1)
@@ -38,6 +38,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var map = JSTileMap()
     var ground = TMXObjectGroup()
     var edge = TMXObjectGroup()
+    var canonTMX = TMXObjectGroup()
+    
+    var canon = SKSpriteNode()
+    var canonArray = Array<SKSpriteNode>()
     
     var player1 = SKSpriteNode()
     var bullet = SKSpriteNode()
@@ -109,6 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var killRightAction = SKAction()
     
     var backgroundMusic = AVAudioPlayer()
+    
     
     override func didMove(to view: SKView)
     {
@@ -214,6 +219,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //creating the player
         let player = SKSpriteNode(imageNamed: "stand-right")
         standRightFlag = true
+        collided = false
         player.position = CGPoint(x: self.frame.size.width / 6, y: self.frame.size.height / 3)
         player.zPosition = -60
         player.size = CGSize(width: 18, height:36)
@@ -226,6 +232,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         player.physicsBody?.contactTestBitMask = PhyCat.Enemy
         player.physicsBody?.isDynamic = true
         player.physicsBody?.allowsRotation = false
+        
+        player.run(SKAction.repeat(SKAction.sequence([SKAction.fadeOut(withDuration: 0.14),SKAction.fadeIn(withDuration: 0.14)]), count: 10))
         
         return player
     }
@@ -262,6 +270,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             groundNode.physicsBody?.contactTestBitMask = 0
             
             map.addChild(groundNode)
+        }
+        
+        canonTMX = map.groupNamed("canons")
+        var canonArrayObjects = NSMutableArray()
+        canonArrayObjects =  canonTMX.objects
+        
+        var canonDictObj = NSDictionary()
+        var canonX = CGFloat()
+        var canonY = CGFloat()
+        
+        for z in 0...canonArrayObjects.count-1
+        {
+            canonDictObj = canonArrayObjects.object(at: z) as! NSDictionary
+            canonX = canonDictObj.value(forKey: "x") as! CGFloat
+            canonY = canonDictObj.value(forKey: "y") as! CGFloat
+            
+            let canonNode = SKSpriteNode(imageNamed: "canon_1")
+            canonNode.position = CGPoint(x: canonX + 18, y: canonY + 15)
+            canonNode.zPosition = -60
+            
+            canonArray.append(canonNode)
+            map.addChild(canonNode)
         }
         
         edge = map.groupNamed("Edges")
@@ -636,21 +666,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag){
             player1.position = CGPoint(x: player1.position.x - 2, y: player1.position.y)
         }
+        
+        for i in 0...canonArray.count - 1{
+            let location = player1.position
+            
+            //Aim
+            let dx = location.x - canonArray[i].position.x
+            let dy = location.y - canonArray[i].position.y
+            let angle = atan2(dy, dx)
+            
+            print(angle)
+            if(angle <= 2.9 && angle > 2.8){
+                canonArray[i] = SKSpriteNode(imageNamed: "canon_1")
+            }
+            if(angle <= 2.8 && angle > 0.4){
+                canonArray[i] = SKSpriteNode(imageNamed: "canon_2")
+            }
+//            canonArray[i].zRotation = angle
+            
+            //Seek
+            /*
+            let vx = cos(angle) * missileSpeed
+            let vy = sin(angle) * missileSpeed
+            
+            missile.position.x += vx
+            missile.position.y += vy
+ */
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact)
     {
         
-        print("contact physics")
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
         if(collided==false)
         {
             if((firstBody.contactTestBitMask == PhyCat.Player && secondBody.contactTestBitMask == PhyCat.Enemy)||(firstBody.contactTestBitMask == PhyCat.Enemy && secondBody.contactTestBitMask == PhyCat.Player))
             {
+                print("contact physics")
                 //player1.removeAllActions()
-                player1.run(killRightAction)
+                //player1.run(killRightAction)
+                player1.run(SKAction.sequence([killRightAction, SKAction.removeFromParent(), SKAction.wait(forDuration: 5)]))
                 collided = true
+                if(lives >= -1000){
+                    player1 = self.createPlayer()
+                    map.addChild(player1)
+                    lives -= 1
+                }
+                else{
+                //
+                    print("game over")
+                }
             }
         }
     }
