@@ -341,7 +341,7 @@ class GameScene: SKScene
                     runLeftFlag = false
                 }
                 
-                if(angle < -0.2 && angle > -3.1){
+                if(angle < -1.7 && angle > -3.1){
                     player1.run(SKAction.repeatForever(aimDownAngleLeft))
                     aimDownAngleLeftFlag = true
                     print("down angle left")
