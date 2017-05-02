@@ -31,6 +31,7 @@ struct PhyCat
 
 class GameScene: SKScene
 {
+    var enemy = SKSpriteNode()
     
     var map = JSTileMap()
     var ground = TMXObjectGroup()
@@ -77,7 +78,7 @@ class GameScene: SKScene
     var jumpRightFlag = Bool()
     
     var lieDownRight = SKAction()
-    var aimUpRight = SKAction()
+    var lieDownRightFlag = Bool()
     
     var aimUpAngleLeft = SKAction()
     var aimUpAngleLeftFlag = Bool()
@@ -92,7 +93,13 @@ class GameScene: SKScene
     var jumpLeftFlag = Bool()
     
     var lieDownLeft = SKAction()
+    var lieDownLeftFlag = Bool()
+    
     var aimUpLeft = SKAction()
+    var aimUpLeftFlag = Bool()
+    
+    var aimUpRight = SKAction()
+    var aimUpRightFlag = Bool()
     
     var killLeftAction = SKAction()
     var killRightAction = SKAction()
@@ -117,9 +124,33 @@ class GameScene: SKScene
         
         self.createController()
         
+        self.createEnemyFromRight()
+        
         self.createPhysicsAssets()
         
         self.playBackgroundMusic(fileNamed: "contra_stage1.wav")
+        
+        let spawn = SKAction.run{
+            () in
+            
+            let number = arc4random_uniform(3)
+            print(number)
+            if(number == 0){
+                self.createEnemyFromRight()
+            }
+            if(number == 1){
+                self.createEnemyFromLeft()
+            }
+            if(number == 2){
+                self.createEnemyFromLeft()
+                self.createEnemyFromRight()
+            }
+        }
+        let delay = SKAction.wait(forDuration:7, withRange: 5)
+        let SpawnDelay = SKAction.sequence([spawn, delay])
+        let SpawnDelayForever = SKAction.repeatForever(SpawnDelay)
+        self.run(SpawnDelayForever)
+        
     }
     
     //Loads the level map from the tmx file
@@ -204,7 +235,7 @@ class GameScene: SKScene
         var groundW = Double()
         var groundH = Double()
         
-        for var z in 0...groundArrayObjects.count-1
+        for z in 0...groundArrayObjects.count-1
         {
             groundDictObj = groundArrayObjects.object(at: z) as! NSDictionary
             groundX = groundDictObj.value(forKey: "x") as! CGFloat
@@ -236,7 +267,7 @@ class GameScene: SKScene
         var edgeW = Double()
         var edgeH = Double()
         
-        for var zz in 0...edgesArrayObjects.count-1
+        for zz in 0...edgesArrayObjects.count-1
         {
             edgeDictObj = edgesArrayObjects.object(at: zz) as! NSDictionary
             edgeX = edgeDictObj.value(forKey: "x") as! CGFloat
@@ -329,10 +360,14 @@ class GameScene: SKScene
                 if(angle < 1.5 && angle >= 1.3)
                 {
                     player1.run(SKAction.repeatForever(aimUpRight))
-                    aimUpAngleRightFlag = false
-                    aimDownAngleRightFlag = false
-                    runRightFlag = false
+                 //   aimUpAngleRightFlag = false
+                 //   aimDownAngleRightFlag = false
+                 //   runRightFlag = false
+                    aimUpRightFlag = true
                     print("aiming up")
+                }
+                else{
+                    aimUpRightFlag = false
                 }
                 
                 if(angle < 1.3 && angle >= 0.4){
@@ -364,21 +399,27 @@ class GameScene: SKScene
                 
                 if(angle < -1.1 && angle >= -1.5)
                 {
+               //     player1.size = CGSize(width: 60, height: 35)
                     player1.run(SKAction.repeatForever(lieDownRight))
-                    aimUpAngleRightFlag = false
-                    aimDownAngleRightFlag = false
-                    runRightFlag = false
+                    lieDownRightFlag = true
                     print("lying down")
+                }
+                else{
+                    lieDownRightFlag = false
                 }
 ////////////////////////////////
                 
                 if(angle < 1.7 && angle >= 1.5)
                 {
                     player1.run(SKAction.repeatForever(aimUpLeft))
-                    aimUpAngleLeftFlag = false
-                    aimDownAngleLeftFlag = false
-                    runLeftFlag = false
+                //    aimUpAngleLeftFlag = false
+                //    aimDownAngleLeftFlag = false
+                //    runLeftFlag = false
+                    aimUpLeftFlag = true
                     print("aiming up")
+                }
+                else{
+                    aimUpLeftFlag = false
                 }
                 
                 if(angle < 2.8 && angle >= 1.7){
@@ -411,12 +452,12 @@ class GameScene: SKScene
                 if(angle < -1.5 && angle >= -1.7)
                 {
                     player1.run(SKAction.repeatForever(lieDownLeft))
-                    aimUpAngleLeftFlag = false
-                    aimDownAngleLeftFlag = false
-                    runLeftFlag = false
+                    lieDownLeftFlag = true
                     print("lying down left")
                 }
-                
+                else{
+                    lieDownLeftFlag = false
+                }
             }
             
             if speedController.contains(touchLocation)
@@ -441,11 +482,11 @@ class GameScene: SKScene
             let touchLocation = touch.location(in: self)
             if(controllerPressed)
             {
-                if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag){
+                if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag || lieDownRightFlag || aimUpRightFlag){
                     player1.run(SKAction.repeatForever(standRight))
                 }
                 
-                if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag){
+                if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag || lieDownLeftFlag || aimUpLeftFlag){
                     player1.run(SKAction.repeatForever(standLeft))
                 }
                 
@@ -455,7 +496,6 @@ class GameScene: SKScene
                 aimUpAngleRightFlag = false
                 aimDownAngleRightFlag = false
                 
-                controllerPressed = false
                 runLeftFlag = false
                 aimUpAngleLeftFlag = false
                 aimDownAngleLeftFlag = false
@@ -638,7 +678,7 @@ class GameScene: SKScene
         killLeft = SKTextureAtlas(named: "killLeft.atlas")
         for i in 1...killLeft.textureNames.count
         {
-            var Name = "killLeft-frame\(i).png"
+            let Name = "killLeft-frame\(i).png"
             killLeftArray.append(SKTexture(imageNamed: Name))
         }
         killLeftAction = SKAction.animate(with: killLeftArray, timePerFrame: 0.16)
@@ -652,9 +692,70 @@ class GameScene: SKScene
         killRight = SKTextureAtlas(named: "killRight.atlas")
         for i in 1...killRight.textureNames.count
         {
-            var Name = "killRight-frame\(i).png"
+            let Name = "killRight-frame\(i).png"
             killRightArray.append(SKTexture(imageNamed: Name))
         }
         killRightAction = SKAction.animate(with: killRightArray, timePerFrame: 0.16)
     }
+    
+    func createEnemyFromRight(){
+        
+        self.enemy = SKSpriteNode(imageNamed: "EnemyL1")
+        self.enemy.position = CGPoint(x: self.frame.size.width + 50, y: self.frame.size.height / 2)
+        self.enemy.zPosition = -60
+        self.enemy.setScale(1.0)
+        
+        self.enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        self.enemy.physicsBody?.affectedByGravity = true
+        self.enemy.physicsBody?.categoryBitMask = PhyCat.Enemy
+        self.enemy.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
+        self.enemy.physicsBody?.contactTestBitMask = PhyCat.Player
+        self.enemy.physicsBody?.isDynamic = true
+        self.enemy.physicsBody?.allowsRotation = false
+        
+        var enemyFromRight = SKTextureAtlas()
+        var enemyFromRightArray = [SKTexture]()
+        
+        enemyFromRight = SKTextureAtlas(named: "EnemyL.atlas")
+        for i in 1...enemyFromRight.textureNames.count
+        {
+            let Name = "EnemyL\(i).png"
+            enemyFromRightArray.append(SKTexture(imageNamed: Name))
+        }
+        self.enemy.run(SKAction.repeatForever(SKAction.animate(with: enemyFromRightArray, timePerFrame: 0.16)))
+        self.enemy.run(SKAction.sequence([SKAction.move(to: CGPoint(x: -self.frame.size.width + 50, y: 0), duration: 30), SKAction.removeFromParent()]))
+        print("adding enemy")
+        map.addChild(self.enemy)
+    }
+    
+    func createEnemyFromLeft(){
+        
+        self.enemy = SKSpriteNode(imageNamed: "EnemyR1")
+        self.enemy.position = CGPoint(x: -300, y: self.frame.size.height / 2)
+        self.enemy.zPosition = -60
+        self.enemy.setScale(1.0)
+        
+        self.enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        self.enemy.physicsBody?.affectedByGravity = true
+        self.enemy.physicsBody?.categoryBitMask = PhyCat.Enemy
+        self.enemy.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
+        self.enemy.physicsBody?.contactTestBitMask = PhyCat.Player
+        self.enemy.physicsBody?.isDynamic = true
+        self.enemy.physicsBody?.allowsRotation = false
+        
+        var enemyFromRight = SKTextureAtlas()
+        var enemyFromRightArray = [SKTexture]()
+        
+        enemyFromRight = SKTextureAtlas(named: "EnemyR.atlas")
+        for i in 1...enemyFromRight.textureNames.count
+        {
+            let Name = "EnemyR\(i).png"
+            enemyFromRightArray.append(SKTexture(imageNamed: Name))
+        }
+        self.enemy.run(SKAction.repeatForever(SKAction.animate(with: enemyFromRightArray, timePerFrame: 0.16)))
+        self.enemy.run(SKAction.sequence([SKAction.move(to: CGPoint(x: self.frame.size.width + 50, y: 0), duration: 30), SKAction.removeFromParent()]))
+        print("adding enemy")
+        map.addChild(self.enemy)
+    }
+
 }
