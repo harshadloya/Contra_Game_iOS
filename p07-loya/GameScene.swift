@@ -638,13 +638,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
     }
     
-    func didBegin(_ contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact)
+    {
         
         print("contact physics")
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
-        if(collided==false){
-            if((firstBody.contactTestBitMask == PhyCat.Player && secondBody.contactTestBitMask == PhyCat.Enemy)||(firstBody.contactTestBitMask == PhyCat.Enemy && secondBody.contactTestBitMask == PhyCat.Player)){
+        if(collided==false)
+        {
+            if((firstBody.contactTestBitMask == PhyCat.Player && secondBody.contactTestBitMask == PhyCat.Enemy)||(firstBody.contactTestBitMask == PhyCat.Enemy && secondBody.contactTestBitMask == PhyCat.Player))
+            {
                 //player1.removeAllActions()
                 player1.run(killRightAction)
                 collided = true
@@ -706,7 +709,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func playerJumpRight() {
         var jumpRightTexture = SKTextureAtlas()
         var jumpRightArray = [SKTexture]()
-      /*
+      
         jumpRightTexture = SKTextureAtlas(named: "jump-right.atlas")
         print(jumpRightTexture.textureNames.count)
         for i in 0...jumpRightTexture.textureNames.count - 1
@@ -715,7 +718,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             jumpRightArray.append(SKTexture(imageNamed: Name))
         }
         jumpRight = SKAction.animate(with: jumpRightArray, timePerFrame: 0.05)
- */
+    }
+    
+    func playerJumpLeft()
+    {
+        var jumpLeftTexture = SKTextureAtlas()
+        var jumpLeftArray = [SKTexture]()
+        
+        jumpLeftTexture = SKTextureAtlas(named: "jump-right.atlas")
+        print(jumpLeftTexture.textureNames.count)
+        for i in 0...jumpLeftTexture.textureNames.count - 1
+        {
+            let Name = "frame_\(i)_delay-0.02s.png"
+            jumpLeftArray.append(SKTexture(imageNamed: Name))
+        }
+        jumpLeft = SKAction.animate(with: jumpLeftArray, timePerFrame: 0.05)
     }
     
     func playerKillRight()
@@ -800,15 +817,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         let f2 = SKTexture.init(imageNamed: "rundownleft-frame3")
         let frames: [SKTexture] = [f0, f1, f2]
         aimDownAngleLeft = SKAction.animate(with: frames, timePerFrame: 0.16)
-    }
-    
-    func playerJumpLeft() {
-        let f0 = SKTexture.init(imageNamed: "jump-frame1")
-        let f1 = SKTexture.init(imageNamed: "jump-frame2")
-        let f2 = SKTexture.init(imageNamed: "jump-frame3")
-        let f3 = SKTexture.init(imageNamed: "jump-frame4")
-        let frames: [SKTexture] = [f0, f1, f2, f3]
-        jumpLeft = SKAction.animate(with: frames, timePerFrame: 0.05)
     }
     
     func playerKillLeft()
