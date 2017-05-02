@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		283959941EB90B8E00CF61A0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283959931EB90B8E00CF61A0 /* GameScene.swift */; };
+		2839599C1EB9206300CF61A0 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2839599B1EB9206300CF61A0 /* MainScene.swift */; };
+		283959A01EB920F200CF61A0 /* intro.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2839599F1EB920F200CF61A0 /* intro.wav */; };
 		AF3352131EA991C700CC89B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3352121EA991C700CC89B6 /* AppDelegate.swift */; };
 		AF33521B1EA991C700CC89B6 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF33521A1EA991C700CC89B6 /* GameViewController.swift */; };
 		AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF33521C1EA991C700CC89B6 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		283959931EB90B8E00CF61A0 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		2839599B1EB9206300CF61A0 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
+		2839599F1EB920F200CF61A0 /* intro.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = intro.wav; sourceTree = "<group>"; };
 		AF33520F1EA991C700CC89B6 /* p07-loya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "p07-loya.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF3352121EA991C700CC89B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF33521A1EA991C700CC89B6 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -119,10 +123,12 @@
 		AF3352111EA991C700CC89B6 /* p07-loya */ = {
 			isa = PBXGroup;
 			children = (
+				2839599F1EB920F200CF61A0 /* intro.wav */,
 				AF3352121EA991C700CC89B6 /* AppDelegate.swift */,
 				283959931EB90B8E00CF61A0 /* GameScene.swift */,
 				E9DC97021EB7190B005DD18A /* ShipBullet.wav */,
 				AFB24A381EB8808E00EF7246 /* contra_stage1.wav */,
+				2839599B1EB9206300CF61A0 /* MainScene.swift */,
 				AF33521A1EA991C700CC89B6 /* GameViewController.swift */,
 				AF33521C1EA991C700CC89B6 /* Main.storyboard */,
 				AF33521F1EA991C700CC89B6 /* Assets.xcassets */,
@@ -282,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */,
+				283959A01EB920F200CF61A0 /* intro.wav in Resources */,
 				AFB24A391EB8808E00EF7246 /* contra_stage1.wav in Resources */,
 				AF3352201EA991C700CC89B6 /* Assets.xcassets in Resources */,
 				E9DC97031EB7190B005DD18A /* ShipBullet.wav in Resources */,
@@ -315,6 +322,7 @@
 				283959941EB90B8E00CF61A0 /* GameScene.swift in Sources */,
 				E948D33A1EB5F3FC00E09D6C /* LFCGzipUtility.m in Sources */,
 				AF33521B1EA991C700CC89B6 /* GameViewController.swift in Sources */,
+				2839599C1EB9206300CF61A0 /* MainScene.swift in Sources */,
 				AF3352131EA991C700CC89B6 /* AppDelegate.swift in Sources */,
 				E948D3391EB5F3FC00E09D6C /* JSTileMap.m in Sources */,
 			);
