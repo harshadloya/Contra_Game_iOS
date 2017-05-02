@@ -15,6 +15,7 @@
 		AF3352231EA991C700CC89B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF3352211EA991C700CC89B6 /* LaunchScreen.storyboard */; };
 		AF33522E1EA991C700CC89B6 /* p07_loyaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF33522D1EA991C700CC89B6 /* p07_loyaTests.swift */; };
 		AF3352391EA991C700CC89B6 /* p07_loyaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3352381EA991C700CC89B6 /* p07_loyaUITests.swift */; };
+		AFB24A391EB8808E00EF7246 /* contra_stage1.wav in Resources */ = {isa = PBXBuildFile; fileRef = AFB24A381EB8808E00EF7246 /* contra_stage1.wav */; };
 		AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */ = {isa = PBXBuildFile; fileRef = AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */; };
 		AFB8ADD91EB6C4460088D30A /* lvl1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AFB8ADD81EB6C4460088D30A /* lvl1.tmx */; };
 		E948D3391EB5F3FC00E09D6C /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E948D3361EB5F3FC00E09D6C /* JSTileMap.m */; };
@@ -55,6 +56,7 @@
 		AF3352341EA991C700CC89B6 /* p07-loyaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "p07-loyaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF3352381EA991C700CC89B6 /* p07_loyaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = p07_loyaUITests.swift; sourceTree = "<group>"; };
 		AF33523A1EA991C700CC89B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFB24A381EB8808E00EF7246 /* contra_stage1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = contra_stage1.wav; sourceTree = "<group>"; };
 		AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NES - Contra - Level 1.png"; sourceTree = "<group>"; };
 		AFB8ADD81EB6C4460088D30A /* lvl1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lvl1.tmx; sourceTree = "<group>"; };
 		E948D3341EB5F3FA00E09D6C /* p07-loya-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "p07-loya-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				AF3352121EA991C700CC89B6 /* AppDelegate.swift */,
 				AF3352181EA991C700CC89B6 /* GameScene.swift */,
 				E9DC97021EB7190B005DD18A /* ShipBullet.wav */,
+				AFB24A381EB8808E00EF7246 /* contra_stage1.wav */,
 				AF33521A1EA991C700CC89B6 /* GameViewController.swift */,
 				AF33521C1EA991C700CC89B6 /* Main.storyboard */,
 				AF33521F1EA991C700CC89B6 /* Assets.xcassets */,
@@ -237,6 +240,7 @@
 				TargetAttributes = {
 					AF33520E1EA991C700CC89B6 = {
 						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = B9LQ9S6JZ2;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -278,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */,
+				AFB24A391EB8808E00EF7246 /* contra_stage1.wav in Resources */,
 				AF3352201EA991C700CC89B6 /* Assets.xcassets in Resources */,
 				E9DC97031EB7190B005DD18A /* ShipBullet.wav in Resources */,
 				AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */,
@@ -466,6 +471,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=*]" = disable;
+				DEVELOPMENT_TEAM = B9LQ9S6JZ2;
 				INFOPLIST_FILE = "p07-loya/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -482,6 +490,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEBUG_ACTIVITY_MODE = "";
+				DEVELOPMENT_TEAM = B9LQ9S6JZ2;
 				INFOPLIST_FILE = "p07-loya/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

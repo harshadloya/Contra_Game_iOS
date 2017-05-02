@@ -8,6 +8,9 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+
+
 let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
 
 let scaleup = SKAction.scale(to: 1.2, duration: 0.1)
@@ -91,8 +94,15 @@ class GameScene: SKScene
     var lieDownLeft = SKAction()
     var aimUpLeft = SKAction()
     
+    var killLeftAction = SKAction()
+    var killRightAction = SKAction()
+    
+    var backgroundMusic = AVAudioPlayer()
+    
     override func didMove(to view: SKView)
     {
+        self.view?.isMultipleTouchEnabled = true
+        
         screenWidth = self.frame.size.width
         screenHeight = self.frame.size.height
         
@@ -109,6 +119,7 @@ class GameScene: SKScene
         
         self.createPhysicsAssets()
         
+        self.playBackgroundMusic(fileNamed: "contra_stage1.wav")
     }
     
     //Loads the level map from the tmx file
@@ -120,9 +131,32 @@ class GameScene: SKScene
         
     }
     
+    func playBackgroundMusic(fileNamed: String)
+    {
+        let loadTrack = Bundle.main.url(forResource: fileNamed, withExtension: nil)
+        
+        guard let track = loadTrack else
+        {
+            print("File named \(fileNamed) not found")
+            return
+        }
+        
+        do
+        {
+            backgroundMusic =  try AVAudioPlayer(contentsOf: track)
+            backgroundMusic.numberOfLoops = -1
+            backgroundMusic.prepareToPlay()
+            backgroundMusic.play()
+        }
+        catch let error as NSError
+        {
+            print(error.description)
+        }
+    }
+    
     func createPlayer() -> SKSpriteNode
     {
-        
+        //initialization of Actions for the Player
         self.playerRunRight()
         self.playerJumpRight()
         self.playerLyingRight()
@@ -130,6 +164,7 @@ class GameScene: SKScene
         self.playerAimUpRight()
         self.playerAimDownAngleRight()
         self.playerStandRight()
+        self.playerKillRight()
         
         self.playerStandLeft()
         self.playerRunLeft()
@@ -137,14 +172,15 @@ class GameScene: SKScene
         self.playerLyingLeft()
         self.playerAimUpAngleLeft()
         self.playerAimUpLeft()
-        self.playerAimDownAngleLeft()
+        self.playerKillLeft()
         
+        //creating the player
         let player = SKSpriteNode(imageNamed: "stand-right")
         player.position = CGPoint(x: self.frame.size.width / 6, y: self.frame.size.height / 3)
         player.zPosition = -60
         player.setScale(1.0)
         
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.affectedByGravity = true
         player.physicsBody?.categoryBitMask = PhyCat.Player
         player.physicsBody?.collisionBitMask = PhyCat.Ground | PhyCat.Edge
@@ -176,7 +212,7 @@ class GameScene: SKScene
             groundW = (groundDictObj.value(forKey: "width") as! NSString).doubleValue
             groundH = (groundDictObj.value(forKey: "height") as! NSString).doubleValue
             
-            let groundNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: groundW, height: groundH + 25))
+            let groundNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: groundW, height: groundH + 8))
             groundNode.position = CGPoint(x: groundX, y: groundY)
             groundNode.zPosition = -60
             
@@ -208,7 +244,7 @@ class GameScene: SKScene
             edgeW = (edgeDictObj.value(forKey: "width") as! NSString).doubleValue
             edgeH = (edgeDictObj.value(forKey: "height") as! NSString).doubleValue
             
-            let edgeNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: edgeW, height: edgeH))
+            let edgeNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: edgeW + 5.0, height: edgeH + 100.0))
             edgeNode.position = CGPoint(x: edgeX, y: edgeY)
             edgeNode.zPosition = -60
             
@@ -248,9 +284,12 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchLocation = touch.location(in: self)
-            if(controller.contains(touchLocation)){
+            
+            if(controller.contains(touchLocation))
+            {
                 controllerPressed = true
             }
+            
             if speedController.contains(touchLocation)
             {
                 firebullet()
@@ -263,25 +302,27 @@ class GameScene: SKScene
                 jumpController.run(bouncybouncy)
                 //jump()
             }
+            
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches{
-            let location = touch.location(in: self)
+            let touchLocation = touch.location(in: self)
             
-            if(controllerPressed){
+            if(controllerPressed)
+            {
                 controllerMoved = true
-                let v = CGVector(dx: location.x - base.position.x, dy: location.y - base.position.y)
+                let v = CGVector(dx: touchLocation.x - base.position.x, dy: touchLocation.y - base.position.y)
                 let angle = atan2(v.dy, v.dx)
                 
                 let length: CGFloat = base.frame.size.height / 5
                 
-                xDist = sin(angle - CGFloat(M_PI) / 2.0) * length
-                yDist = cos(angle - CGFloat(M_PI) / 2.0) * length
+                xDist = sin(angle - .pi / 2.0) * length
+                yDist = cos(angle - .pi / 2.0) * length
                 
-                print(angle)
+                //print(angle)
                 controller.position = CGPoint(x:base.position.x - xDist, y:base.position.y + yDist)
 
                 
@@ -375,7 +416,20 @@ class GameScene: SKScene
                     runLeftFlag = false
                     print("lying down left")
                 }
-
+                
+            }
+            
+            if speedController.contains(touchLocation)
+            {
+                firebullet()
+                speedController.run(fade)
+                speedController.run(bouncybouncy)
+            }
+            if jumpController.contains(touchLocation)
+            {
+                jumpController.run(fade)
+                jumpController.run(bouncybouncy)
+                //jump()
             }
         }
     }
@@ -385,8 +439,8 @@ class GameScene: SKScene
         {
             
             let touchLocation = touch.location(in: self)
-            if(controllerPressed){
-                
+            if(controllerPressed)
+            {
                 if(runRightFlag || aimDownAngleRightFlag || aimUpAngleRightFlag){
                     player1.run(SKAction.repeatForever(standRight))
                 }
@@ -407,16 +461,18 @@ class GameScene: SKScene
                 aimDownAngleLeftFlag = false
                 
             }
-        }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches
-        {
-            let touchLocation = touch.location(in: self)
-            if(controllerPressed)
+            
+            if speedController.contains(touchLocation)
             {
-                print(touchLocation)
+                firebullet()
+                speedController.run(fade)
+                speedController.run(bouncybouncy)
+            }
+            if jumpController.contains(touchLocation)
+            {
+                jumpController.run(fade)
+                jumpController.run(bouncybouncy)
+                //jump()
             }
         }
     }
@@ -572,5 +628,33 @@ class GameScene: SKScene
         let f3 = SKTexture.init(imageNamed: "jump-frame4")
         let frames: [SKTexture] = [f0, f1, f2, f3]
         jumpLeft = SKAction.animate(with: frames, timePerFrame: 0.05)
+    }
+    
+    func playerKillLeft()
+    {
+        var killLeft = SKTextureAtlas()
+        var killLeftArray = [SKTexture]()
+        
+        killLeft = SKTextureAtlas(named: "killLeft.atlas")
+        for i in 1...killLeft.textureNames.count
+        {
+            var Name = "killLeft-frame\(i).png"
+            killLeftArray.append(SKTexture(imageNamed: Name))
+        }
+        killLeftAction = SKAction.animate(with: killLeftArray, timePerFrame: 0.16)
+    }
+    
+    func playerKillRight()
+    {
+        var killRight = SKTextureAtlas()
+        var killRightArray = [SKTexture]()
+        
+        killRight = SKTextureAtlas(named: "killRight.atlas")
+        for i in 1...killRight.textureNames.count
+        {
+            var Name = "killRight-frame\(i).png"
+            killRightArray.append(SKTexture(imageNamed: Name))
+        }
+        killRightAction = SKAction.animate(with: killRightArray, timePerFrame: 0.16)
     }
 }
