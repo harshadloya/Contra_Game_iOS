@@ -10,6 +10,13 @@ import SpriteKit
 import GameplayKit
 let bulletSound = SKAction.playSoundFileNamed("ShipBullet.wav", waitForCompletion: false)
 
+let scaleup = SKAction.scale(to: 1.2, duration: 0.1)
+let scaledown = SKAction.scale(to: 0.7, duration: 0.1)
+let opaque = SKAction.fadeAlpha(to: 1, duration: 0.1)
+let trans = SKAction.fadeAlpha(to: 0.6, duration: 0.1)
+let bouncybouncy = SKAction.sequence([scaleup, scaledown])
+let fade = SKAction.sequence([opaque, trans])
+
 struct PhyCat
 {
     static let Player : UInt32 = 0x1 << 1
@@ -41,6 +48,8 @@ class GameScene: SKScene
     var base = SKShapeNode()
     var controller = SKShapeNode()
     var speedController = SKSpriteNode()
+    var jumpController = SKSpriteNode()
+    var jumpControllerPressed = Bool()
     var controllerPressed = Bool()
     var controllerMoved = Bool()
     var speedControllerPressed = Bool()
@@ -245,6 +254,14 @@ class GameScene: SKScene
             if speedController.contains(touchLocation)
             {
                 firebullet()
+                speedController.run(fade)
+                speedController.run(bouncybouncy)
+            }
+            if jumpController.contains(touchLocation)
+            {
+                jumpController.run(fade)
+                jumpController.run(bouncybouncy)
+                //jump()
             }
         }
     }
@@ -421,12 +438,19 @@ class GameScene: SKScene
         self.controller.zPosition = 4
         self.addChild(controller)
         
-        self.speedController = SKSpriteNode(imageNamed: "fire")
+        self.speedController = SKSpriteNode(imageNamed: "o")
         self.speedController.zPosition = 4
-        self.speedController.alpha = 0.4
-        self.speedController.position = CGPoint(x: screenWidth - 100, y: 70)
-        self.speedController.setScale(0.4)
+        self.speedController.alpha = 0.6
+        self.speedController.position = CGPoint(x: screenWidth * 0.90, y: 85)
+        self.speedController.setScale(0.7)
         self.addChild(speedController)
+        
+        self.jumpController = SKSpriteNode(imageNamed: "x")
+        self.jumpController.zPosition = 4
+        self.jumpController.alpha = 0.6
+        self.jumpController.position = CGPoint(x: screenWidth * 0.83, y: 52)
+        self.jumpController.setScale(0.7)
+        self.addChild(jumpController)
     }
     
     
