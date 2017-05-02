@@ -677,10 +677,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             print(angle)
             if(angle <= 2.9 && angle > 2.8){
-                canonArray[i] = SKSpriteNode(imageNamed: "canon_1")
+                print("canon1")
+                canonArray[i].texture = SKTexture(imageNamed: "canon_1")
             }
             if(angle <= 2.8 && angle > 0.4){
-                canonArray[i] = SKSpriteNode(imageNamed: "canon_2")
+                print("canon2")
+                canonArray[i].texture = SKTexture(imageNamed: "canon_2")
             }
 //            canonArray[i].zRotation = angle
             
