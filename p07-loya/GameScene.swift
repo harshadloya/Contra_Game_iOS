@@ -374,8 +374,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 firebullet()
                 if(standRightFlag){
                     bullet.position = CGPoint(x: player1.position.x + player1.size.width - 9, y: player1.position.y + 5)
-                    let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
-                   // let move = SKAction.moveBy(x: self.size.width, y: self.size.width, duration: 8.0)
+                    //let move = SKAction.moveTo(x: self.size.width*0.5,duration: 1.8)
+                    let move = SKAction.moveBy(x: self.size.width, y: 0, duration: 8.0)
                     let remove = SKAction.removeFromParent()
                     let fire = SKAction.sequence([bulletSound, move, remove])
                     bullet.run(fire)
@@ -385,7 +385,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 
                 if(standLeftFlag){
                     bullet.position = CGPoint(x: player1.position.x, y: player1.position.y + 5)
-                    let move = SKAction.moveTo(x: -self.size.width*0.5,duration: 1.8)
+                    //let move = SKAction.moveTo(x: -self.size.width*0.5,duration: 1.8)
+                    let move = SKAction.moveBy(x: -self.size.width, y: 0, duration: 8.0)
                     let remove = SKAction.removeFromParent()
                     let fire = SKAction.sequence([bulletSound, move, remove])
                     bullet.run(fire)
@@ -698,25 +699,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let dy = location.y - canonArray[i].position.y
             let angle = atan2(dy, dx)
             
-            print(angle)
             if(angle <= 2.9 && angle > 2.8){
-                print("canon1")
                 canonArray[i].texture = SKTexture(imageNamed: "canon_1")
             }
             if(angle <= 2.8 && angle > 0.4){
-                print("canon2")
                 canonArray[i].texture = SKTexture(imageNamed: "canon_2")
             }
-//            canonArray[i].zRotation = angle
-            
-            //Seek
-            /*
-            let vx = cos(angle) * missileSpeed
-            let vy = sin(angle) * missileSpeed
-            
-            missile.position.x += vx
-            missile.position.y += vy
- */
+            if(angle <= 2.1 && angle > 1.1){
+                canonArray[i].texture = SKTexture(imageNamed: "canon_3")
+            }
+            if(angle <= 1.1){
+                canonArray[i].texture = SKTexture(imageNamed: "canon_4")
+            }
         }
     }
     
@@ -725,22 +719,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
+        if ((firstBody.categoryBitMask == PhyCat.Bullet && secondBody.categoryBitMask == PhyCat.Enemy)||(firstBody.categoryBitMask == PhyCat.Enemy && secondBody.categoryBitMask == PhyCat.Bullet))
+        {
+            firstBody.node?.removeFromParent()
+            secondBody.node?.removeFromParent()
+        }
+        
         if(collided==false)
         {
-            if((firstBody.contactTestBitMask == PhyCat.Player && secondBody.contactTestBitMask == PhyCat.Enemy)||(firstBody.contactTestBitMask == PhyCat.Enemy && secondBody.contactTestBitMask == PhyCat.Player))
+            if((firstBody.categoryBitMask == PhyCat.Player && secondBody.categoryBitMask == PhyCat.Enemy)||(firstBody.categoryBitMask == PhyCat.Enemy && secondBody.categoryBitMask == PhyCat.Player))
             {
                 print("contact physics")
                 //player1.removeAllActions()
                 //player1.run(killRightAction)
-                player1.run(SKAction.sequence([killRightAction, SKAction.removeFromParent(), SKAction.wait(forDuration: 5)]))
+                player1.run(SKAction.sequence([killRightAction, SKAction.removeFromParent()]))
                 collided = true
-                if(lives >= -1000){
+                if(lives >= 1){
                     player1 = self.createPlayer()
                     map.addChild(player1)
                     lives -= 1
+                    
+                    self.base.removeFromParent()
+                    self.controller.removeFromParent()
+                    self.jumpController.removeFromParent()
+                    self.speedController.removeFromParent()
+                    
+                    self.createController()
                 }
-                else{
-                //
+                else
+                {
                     print("game over")
                 }
             }
