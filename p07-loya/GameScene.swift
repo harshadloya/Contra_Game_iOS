@@ -114,6 +114,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     var backgroundMusic = AVAudioPlayer()
     
+    var camPanScale = CGFloat()
+    var cam = SKCameraNode()
+    
+    var previousCamPosition = CGPoint()
+    
     
     override func didMove(to view: SKView)
     {
@@ -138,6 +143,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.createEnemyFromRight()
         
         self.createPhysicsAssets()
+        
+        cam.position = CGPoint(x: screenWidth / 2, y: screenHeight / 2)
+        cam.setScale(0.55)
+        self.camera = cam
+        map.addChild(cam)
         
         self.playBackgroundMusic(fileNamed: "contra_stage1.wav")
         
@@ -665,6 +675,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         if(runLeftFlag || aimDownAngleLeftFlag || aimUpAngleLeftFlag){
             player1.position = CGPoint(x: player1.position.x - 2, y: player1.position.y)
+        }
+        
+        previousCamPosition.x = cam.position.x
+        
+        cam.position.x = player1.position.x + 100
+        cam.position.y = player1.position.y - 25
+        
+        if cam.position.x > previousCamPosition.x
+        {
+            controller.position.x += 4
+            base.position.x += 4
+            speedController.position.x += 4
+            jumpController.position.x += 4
         }
         
         for i in 0...canonArray.count - 1{
