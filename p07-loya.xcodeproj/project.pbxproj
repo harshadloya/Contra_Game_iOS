@@ -10,6 +10,8 @@
 		283959941EB90B8E00CF61A0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283959931EB90B8E00CF61A0 /* GameScene.swift */; };
 		2839599C1EB9206300CF61A0 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2839599B1EB9206300CF61A0 /* MainScene.swift */; };
 		283959A01EB920F200CF61A0 /* intro.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2839599F1EB920F200CF61A0 /* intro.wav */; };
+		283959A21EB938EE00CF61A0 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283959A11EB938EE00CF61A0 /* GameOver.swift */; };
+		283959A41EB939AF00CF61A0 /* Pixel-Noir Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 283959A31EB939AF00CF61A0 /* Pixel-Noir Caps.ttf */; };
 		AF3352131EA991C700CC89B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3352121EA991C700CC89B6 /* AppDelegate.swift */; };
 		AF33521B1EA991C700CC89B6 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF33521A1EA991C700CC89B6 /* GameViewController.swift */; };
 		AF33521E1EA991C700CC89B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF33521C1EA991C700CC89B6 /* Main.storyboard */; };
@@ -47,6 +49,8 @@
 		283959931EB90B8E00CF61A0 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		2839599B1EB9206300CF61A0 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		2839599F1EB920F200CF61A0 /* intro.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = intro.wav; sourceTree = "<group>"; };
+		283959A11EB938EE00CF61A0 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
+		283959A31EB939AF00CF61A0 /* Pixel-Noir Caps.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pixel-Noir Caps.ttf"; sourceTree = "<group>"; };
 		AF33520F1EA991C700CC89B6 /* p07-loya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "p07-loya.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF3352121EA991C700CC89B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF33521A1EA991C700CC89B6 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -132,10 +136,12 @@
 				AF33521A1EA991C700CC89B6 /* GameViewController.swift */,
 				AF33521C1EA991C700CC89B6 /* Main.storyboard */,
 				AF33521F1EA991C700CC89B6 /* Assets.xcassets */,
+				283959A31EB939AF00CF61A0 /* Pixel-Noir Caps.ttf */,
 				AF3352211EA991C700CC89B6 /* LaunchScreen.storyboard */,
 				AF3352241EA991C700CC89B6 /* Info.plist */,
 				AFB8ADD81EB6C4460088D30A /* lvl1.tmx */,
 				AFB8ADD31EB6AC790088D30A /* NES - Contra - Level 1.png */,
+				283959A11EB938EE00CF61A0 /* GameOver.swift */,
 			);
 			path = "p07-loya";
 			sourceTree = "<group>";
@@ -293,6 +299,7 @@
 				AF3352201EA991C700CC89B6 /* Assets.xcassets in Resources */,
 				E9DC97031EB7190B005DD18A /* ShipBullet.wav in Resources */,
 				AFB8ADD51EB6AC790088D30A /* NES - Contra - Level 1.png in Resources */,
+				283959A41EB939AF00CF61A0 /* Pixel-Noir Caps.ttf in Resources */,
 				AFB8ADD91EB6C4460088D30A /* lvl1.tmx in Resources */,
 				AF3352231EA991C700CC89B6 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -321,6 +328,7 @@
 			files = (
 				283959941EB90B8E00CF61A0 /* GameScene.swift in Sources */,
 				E948D33A1EB5F3FC00E09D6C /* LFCGzipUtility.m in Sources */,
+				283959A21EB938EE00CF61A0 /* GameOver.swift in Sources */,
 				AF33521B1EA991C700CC89B6 /* GameViewController.swift in Sources */,
 				2839599C1EB9206300CF61A0 /* MainScene.swift in Sources */,
 				AF3352131EA991C700CC89B6 /* AppDelegate.swift in Sources */,

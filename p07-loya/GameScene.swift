@@ -748,7 +748,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 }
                 else
                 {
-                    print("game over")
+                    gameover()
                 }
             }
         }
@@ -961,6 +961,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.enemy.run(SKAction.sequence([SKAction.move(to: CGPoint(x: self.frame.size.width + 50, y: 0), duration: 30), SKAction.removeFromParent()]))
         print("adding enemy")
         map.addChild(self.enemy)
+    }
+    
+    func gameover() {
+        let toScene = GameOver(size: (view?.bounds.size)!)
+        toScene.scaleMode = self.scaleMode
+        let move = SKTransition.fade(withDuration: 1)
+        self.view!.presentScene(toScene, transition: move)
     }
 
 }
