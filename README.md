@@ -1,6 +1,6 @@
 # README #
 
-### CS441 - Game Dev Assignment 7(Team) ###
+### CS541 - Game Dev Assignment 7(Team) ###
 
 * CONTRA
 * 1.0
